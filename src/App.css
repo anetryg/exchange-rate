@@ -1,9 +1,42 @@
-body {
-  margin:0;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  background-color: #eeeeee;
+}
+
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
+.convertor, h1, h2{
   display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
-.input{
-  background-color: aquamarine;
+h1 {
+  color: purple;
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 15px;
+}
+
+input {
+  border: 1px solid rgb(181, 181, 181);
+  border-radius: 2px;
+}
+
+input:focus {
+  border: 1px solid rgb(113, 113, 113);
+  border-radius: 2px;
+}
+
+select {
+  background-color: Purple;
+  border-color: #fff transparent transparent transparent;
+  color: rgb(171, 171, 171);
 }

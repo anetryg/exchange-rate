@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import CurrencyRow from './CurrencyRow';
+import CurrencyRow from './components/CurrencyRow';
 
-const URL = 'http://data.fixer.io/api/latest?access_key=b033e4b0e14a15684e3580af0fc09a56'
+const id = process.env.REACT_APP_MY_API_ID
+
+const URL = `http://data.fixer.io/api/latest?access_key=${id}`
+
 
 function App() {
 
-  const [currency, setCurrency] = useState([])
+  const [currency, setCurrency] = useState(['EUR'])
   const [fromCurrency, setFromCurrency] = useState()
-  const [toCurrency, setToCurrency] = useState()
+  const [toCurrency, setToCurrency] = useState('CZK')
   const [amount, setAmount] = useState(1)
   const [amountInFromCurrency, setAmountInFromCurrency] = useState(true)
   const [exchange, setExchange] = useState()
@@ -29,21 +32,19 @@ function App() {
       .then(data => {
         setCurrency([data.base, ...Object.keys(data.rates)])
         setFromCurrency(data.base)
-        //setToCurrency(data.rates[Object.keys(data.rates)[0]])
-        setToCurrency('CZK')
         setExchange(data.rates[Object.keys(data.rates)[0]])
       })
   }, [])
 
   useEffect(() => {
-    if (fromCurrency !== null && toCurrency !== null && fromCurrency !== 'EUR') {
+    if (fromCurrency !== undefined && toCurrency !== undefined && fromCurrency !== 'EUR') {
       fetch(URL)
         .then(res => res.json())
         .then(data => {
           setExchange(data.rates[toCurrency]/data.rates[fromCurrency])
         })
     }
-    else if (fromCurrency !== null && toCurrency !== null && fromCurrency === 'EUR') {
+    else if (fromCurrency !== undefined && toCurrency !== undefined && fromCurrency === 'EUR') {
       fetch(URL)
         .then(res => res.json())
         .then(data => {
@@ -52,21 +53,22 @@ function App() {
     }
   }, [fromCurrency, toCurrency])
 
-  function handleFromAmountChange(e) {
-    setAmount(e.target.value)
+  function handleFromAmountChange(i) {
+    setAmount(i.target.value)
     setAmountInFromCurrency(true)
   }
 
-  function handleToAmountChange(e) {
-    setAmount(e.target.value)
+  function handleToAmountChange(i) {
+    setAmount(i.target.value)
     setAmountInFromCurrency(false)
   }
 
   return (
     <>
-      <h1>Convert</h1>
+      <h1>CURRENCY CONVERTER</h1>
+      <h2>From</h2>
       <CurrencyRow currency={currency} selectedCurrency={fromCurrency} onChangeCurrency={e => setFromCurrency(e.target.value)} amount={fromAmount} onChangeAmount = {handleFromAmountChange}/>
-      <div>=</div>
+      <h2>To</h2>
       <CurrencyRow currency={currency} selectedCurrency={toCurrency} onChangeCurrency={e => setToCurrency(e.target.value)} amount={toAmount} onChangeAmount = {handleToAmountChange}/>
     </>
   );
