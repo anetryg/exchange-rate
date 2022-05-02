@@ -13,12 +13,14 @@ function App() {
   const [fromCurrency, setFromCurrency] = useState()
   const [toCurrency, setToCurrency] = useState('CZK')
   const [amount, setAmount] = useState(1)
-  const [amountInFromCurrency, setAmountInFromCurrency] = useState(true)
+  const [amountFromCurrency, setAmountFromCurrency] = useState(true)
   const [exchange, setExchange] = useState()
   
 
-  let toAmount, fromAmount
-  if (amountInFromCurrency) {
+  let toAmount
+  let fromAmount
+  
+  if (amountFromCurrency) {
     fromAmount = amount
     toAmount = amount * exchange
   } else {
@@ -55,12 +57,12 @@ function App() {
 
   function handleFromAmountChange(i) {
     setAmount(i.target.value)
-    setAmountInFromCurrency(true)
+    setAmountFromCurrency(true)
   }
 
   function handleToAmountChange(i) {
     setAmount(i.target.value)
-    setAmountInFromCurrency(false)
+    setAmountFromCurrency(false)
   }
 
   return (
